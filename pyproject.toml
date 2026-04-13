@@ -37,7 +37,7 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "asqav>=0.2.10",
+    "asqav>=0.2.11",
     "pydantic-ai>=0.1.0",
 ]
 
