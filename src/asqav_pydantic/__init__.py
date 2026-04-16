@@ -3,4 +3,4 @@
 from .hook import AsqavHooks
 
 __all__ = ["AsqavHooks"]
-__version__ = "0.1.0"
+__version__ = "0.1.1"
