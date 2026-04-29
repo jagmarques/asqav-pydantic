@@ -26,6 +26,24 @@ Cryptographic audit trails for PydanticAI agent tool calls.
 
 Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [asqav](https://asqav.com) - producing tamper-evident records for compliance and governance.
 
+## Data handling
+
+`asqav-pydantic` is a thin wrapper around the `asqav` Python SDK and inherits its mode behavior:
+
+- **Asqav cloud (`*.asqav.com`):** the SDK hashes your action context locally and sends only the hash plus a small metadata bag (action_type, agent_id, session_id, model_name, tool_name). Raw prompts and tool arguments never leave your infrastructure.
+- **Self-hosted:** the SDK sends the full context so the server can run policy checks, PII redaction, and richer audit views. Recommended when you control the deployment.
+
+You can override per call:
+
+```python
+import asqav
+
+# Force hash-only against a custom URL
+asqav.init(api_key="sk_...", base_url="https://api.asqav.com", mode="hash-only")
+```
+
+This is GDPR-aware data minimization by default for cloud deployments. See `docs/canonicalization.md` in the SDK repo for the canonicalization spec and conformance vectors.
+
 ## Install
 
 ```bash
