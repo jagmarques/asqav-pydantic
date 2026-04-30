@@ -24,7 +24,7 @@
 
 Cryptographic audit trails for PydanticAI agent tool calls.
 
-Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [asqav](https://asqav.com) - producing tamper-evident records for compliance and governance.
+Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [Asqav](https://asqav.com) - producing verifiable records for compliance and governance.
 
 ## Data handling
 
