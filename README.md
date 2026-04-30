@@ -24,7 +24,7 @@
 
 Cryptographic audit trails for PydanticAI agent tool calls.
 
-Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [asqav](https://asqav.com) - producing tamper-evident records for compliance and governance.
+Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [Asqav](https://asqav.com) - producing verifiable records for compliance and governance.
 
 ## Data handling
 
@@ -42,7 +42,7 @@ import asqav
 asqav.init(api_key="sk_...", base_url="https://api.asqav.com", mode="hash-only")
 ```
 
-This is GDPR-aware data minimization by default for cloud deployments. See `docs/canonicalization.md` in the SDK repo for the canonicalization spec and conformance vectors.
+This is GDPR-aware data minimization by default for cloud deployments. See [docs/fingerprint-spec.md](https://github.com/jagmarques/asqav-sdk/blob/main/docs/fingerprint-spec.md) in the SDK repo for the fingerprint spec and conformance vectors.
 
 ## Install
 
