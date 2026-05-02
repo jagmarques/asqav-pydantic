@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://asqav.com">
-    <img src="https://asqav.com/logo-text-white.png" alt="asqav" width="200">
+    <img src="https://asqav.com/logo-text-white.png" alt="Asqav" width="200">
   </a>
 </p>
 <p align="center">
@@ -20,7 +20,7 @@
   <a href="https://asqav.com/compliance">Compliance</a>
 </p>
 
-# asqav-pydantic
+# Asqav for PydanticAI
 
 Cryptographic audit trails for PydanticAI agent tool calls.
 
