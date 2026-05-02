@@ -65,17 +65,17 @@ agent = Agent("openai:gpt-4o", capabilities=[hooks.capability()])
 result = agent.run_sync("Search for the latest AI news")
 ```
 
-Every tool call the agent makes will produce signed `tool:start`, `tool:end`, and `tool:error` events through the asqav API. Signatures use ML-DSA (post-quantum) cryptography server-side.
+Every tool call the agent makes will produce signed `tool:start`, `tool:end`, and `tool:error` events through the Asqav API. Signatures use ML-DSA (post-quantum) cryptography server-side.
 
 ## How it works
 
-`AsqavHooks` extends the asqav adapter base class and builds a PydanticAI `Hooks` capability with three registered hooks:
+`AsqavHooks` extends the Asqav adapter base class and builds a PydanticAI `Hooks` capability with three registered hooks:
 
 - `before_tool_execute` - signs `tool:start` with tool name and input preview
 - `after_tool_execute` - signs `tool:end` with tool name and output metadata
 - `on_tool_execute_error` - signs `tool:error` with tool name and error details
 
-All signing is fail-open. If the asqav API is unreachable, a warning is logged but the tool call proceeds normally. Your agent pipeline never breaks because of governance.
+All signing is fail-open. If the Asqav API is unreachable, a warning is logged but the tool call proceeds normally. Your agent pipeline never breaks because of governance.
 
 ## Configuration
 
