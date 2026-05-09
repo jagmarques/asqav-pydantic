@@ -1,20 +1,5 @@
-"""PydanticAI hooks for asqav cryptographic audit trails.
-
-Uses PydanticAI's Hooks capability to sign tool:start, tool:end, and
-tool:error events via the asqav API. All signing is fail-open - governance
-failures are logged but never interrupt agent execution.
-
-Usage::
-
-    import asqav
-    from pydantic_ai import Agent
-    from asqav_pydantic import AsqavHooks
-
-    asqav.init(api_key="sk_...")
-
-    hooks = AsqavHooks(agent_name="my-agent")
-    agent = Agent("openai:gpt-4o", capabilities=[hooks.capability()])
-"""
+"""PydanticAI hooks that sign tool:start, tool:end, and tool:error events
+via the asqav API. All signing is fail-open. See README for usage."""
 
 from __future__ import annotations
 
@@ -39,43 +24,17 @@ _MAX_LEN = 200
 
 
 class AsqavHooks(AsqavAdapter):
-    """PydanticAI integration that signs tool call events via asqav.
-
-    Registers before_tool_execute, after_tool_execute, and
-    on_tool_execute_error hooks on a PydanticAI Hooks capability.
-    Each tool invocation produces cryptographically signed governance
-    events (tool:start, tool:end, tool:error) through the asqav API.
-
-    All signing is fail-open: governance failures are logged as warnings
-    but never raise exceptions or interrupt tool execution.
+    """Sign PydanticAI tool call events (tool:start, tool:end, tool:error)
+    via the asqav API. Fail-open: signing errors are logged, not raised.
 
     Args:
-        api_key: Optional API key override (uses asqav.init() default).
-        agent_name: Name for a new asqav agent (calls Agent.create).
-        agent_id: ID of an existing asqav agent (calls Agent.get).
-
-    Example::
-
-        import asqav
-        from pydantic_ai import Agent
-        from asqav_pydantic import AsqavHooks
-
-        asqav.init(api_key="sk_...")
-
-        hooks = AsqavHooks(agent_name="my-agent")
-        agent = Agent("openai:gpt-4o", capabilities=[hooks.capability()])
-
-        result = agent.run_sync("Search for PydanticAI docs")
+        api_key: Optional API key override (uses ``asqav.init()`` default).
+        agent_name: Name for a new asqav agent (calls ``Agent.create``).
+        agent_id: ID of an existing asqav agent (calls ``Agent.get``).
     """
 
     def capability(self) -> Hooks:
-        """Build a PydanticAI Hooks capability with asqav signing wired in.
-
-        Returns a Hooks instance that can be passed to an Agent's
-        capabilities list. The hooks sign tool:start before execution,
-        tool:end after successful execution, and tool:error when a
-        tool raises an exception.
-        """
+        """Build a PydanticAI ``Hooks`` capability with asqav signing wired in."""
         hooks: Hooks = Hooks()
 
         @hooks.on.before_tool_execute
