@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from typing import Any
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -69,7 +68,7 @@ class TestAsqavHooks:
     def test_init_with_agent_id(self, mock_asqav: MagicMock):
         from asqav_pydantic import AsqavHooks
 
-        hooks_obj = AsqavHooks(agent_id="existing-agent-id")
+        AsqavHooks(agent_id="existing-agent-id")
         from asqav.client import Agent
 
         Agent.get.assert_called_once_with("existing-agent-id")
@@ -77,7 +76,7 @@ class TestAsqavHooks:
     def test_init_auto_name(self, mock_asqav: MagicMock):
         from asqav_pydantic import AsqavHooks
 
-        hooks_obj = AsqavHooks()
+        AsqavHooks()
         from asqav.client import Agent
 
         Agent.create.assert_called_once_with("asqav-hooks")
