@@ -12,11 +12,11 @@ Only the latest published release is supported.
 
 ## Scope
 
-This repository contains asqav-pydantic, the PydanticAI integration for asqav.
+This repository contains asqav-pydantic, the PydanticAI integration for Asqav.
 
 Report issues that affect:
 - Hook registration and tool-call interception
-- Tampering with payloads sent to the asqav API
+- Tampering with payloads sent to the Asqav API
 - Bypasses that let tool calls run without being signed
 
-Cryptographic signing runs server-side via the asqav API. Report signing or key-handling issues against [asqav-sdk](https://github.com/jagmarques/asqav-sdk).
+Cryptographic signing runs server-side via the Asqav API. Report signing or key-handling issues against [asqav-sdk](https://github.com/jagmarques/asqav-sdk).

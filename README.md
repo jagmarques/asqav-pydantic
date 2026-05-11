@@ -80,7 +80,7 @@ All signing is fail-open. If the Asqav API is unreachable, a warning is logged b
 ## Configuration
 
 ```python
-# Use an existing asqav agent by ID
+# Use an existing Asqav agent by ID
 hooks = AsqavHooks(agent_id="ag_abc123")
 
 # Override the API key

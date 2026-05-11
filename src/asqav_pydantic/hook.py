@@ -1,5 +1,5 @@
 """PydanticAI hooks that sign tool:start, tool:end, and tool:error events
-via the asqav API. All signing is fail-open. See README for usage."""
+via the Asqav API. All signing is fail-open. See README for usage."""
 
 from __future__ import annotations
 
@@ -25,16 +25,16 @@ _MAX_LEN = 200
 
 class AsqavHooks(AsqavAdapter):
     """Sign PydanticAI tool call events (tool:start, tool:end, tool:error)
-    via the asqav API. Fail-open: signing errors are logged, not raised.
+    via the Asqav API. Fail-open: signing errors are logged, not raised.
 
     Args:
         api_key: Optional API key override (uses ``asqav.init()`` default).
-        agent_name: Name for a new asqav agent (calls ``Agent.create``).
-        agent_id: ID of an existing asqav agent (calls ``Agent.get``).
+        agent_name: Name for an Asqav agent (calls ``Agent.create``).
+        agent_id: ID of an existing Asqav agent (calls ``Agent.get``).
     """
 
     def capability(self) -> Hooks:
-        """Build a PydanticAI ``Hooks`` capability with asqav signing wired in."""
+        """Build a PydanticAI ``Hooks`` capability with Asqav signing wired in."""
         hooks: Hooks = Hooks()
 
         @hooks.on.before_tool_execute
