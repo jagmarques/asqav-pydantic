@@ -1,4 +1,4 @@
-"""PydanticAI integration for asqav - cryptographic audit trails for AI agent tool calls."""
+"""PydanticAI integration for Asqav - cryptographic audit trails for AI agent tool calls."""
 
 from .hook import AsqavHooks
 
