@@ -4,7 +4,7 @@
   </a>
 </p>
 <p align="center">
-  Governance for AI agents. Audit trails, policy enforcement, and compliance.
+  Cryptographic audit trails for PydanticAI agent tool calls.
 </p>
 <p align="center">
   <a href="https://pypi.org/project/asqav-pydantic/"><img src="https://img.shields.io/pypi/v/asqav-pydantic?style=flat-square&logo=pypi&logoColor=white" alt="PyPI version"></a>
@@ -14,10 +14,9 @@
   <a href="https://github.com/jagmarques/asqav-pydantic"><img src="https://img.shields.io/github/stars/jagmarques/asqav-pydantic?style=social" alt="GitHub stars"></a>
 </p>
 <p align="center">
-  <a href="https://asqav.com">Website</a> |
-  <a href="https://asqav.com/docs">Docs</a> |
-  <a href="https://asqav.com/docs/sdk">SDK Guide</a> |
-  <a href="https://asqav.com/compliance">Compliance</a>
+  <a href="https://www.asqav.com/">Website</a> |
+  <a href="https://www.asqav.com/docs">Docs</a> |
+  <a href="https://github.com/jagmarques/asqav-sdk">SDK</a>
 </p>
 
 # Asqav for PydanticAI
@@ -73,7 +72,7 @@ Every tool call the agent makes will produce signed `tool:start`, `tool:end`, an
 
 - `before_tool_execute` - signs `tool:start` with tool name and input preview
 - `after_tool_execute` - signs `tool:end` with tool name and output metadata
-- `on_tool_execute_error` - signs `tool:error` with tool name and error details
+- `tool_execute_error` - signs `tool:error` with tool name and error details
 
 All signing is fail-open. If the Asqav API is unreachable, a warning is logged but the tool call proceeds normally. Your agent pipeline never breaks because of governance.
 
