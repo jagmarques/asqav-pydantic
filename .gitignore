@@ -6,3 +6,10 @@ build/
 .pytest_cache/
 *.egg
 .ruff_cache/
+
+# AI session artefacts (local-only, never commit)
+.claude/
+.planning/
+.company/
+COMPANY.md
+CLAUDE.md
