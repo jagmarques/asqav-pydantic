@@ -12,11 +12,11 @@ try:
     from pydantic_ai.capabilities.hooks import Hooks
     from pydantic_ai.messages import ToolCallPart
     from pydantic_ai.tools import RunContext, ToolDefinition
-except ImportError:
+except ImportError as err:
     raise ImportError(
         "asqav-pydantic requires pydantic-ai. "
         "Install with: pip install asqav-pydantic"
-    )
+    ) from err
 
 logger = logging.getLogger("asqav")
 
