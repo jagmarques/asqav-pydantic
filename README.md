@@ -4,7 +4,7 @@
   </a>
 </p>
 <p align="center">
-  Cryptographic audit trails for PydanticAI agent tool calls.
+  Prove what your PydanticAI agent did, tool call by tool call.
 </p>
 <p align="center">
   <a href="https://pypi.org/project/asqav-pydantic/"><img src="https://img.shields.io/pypi/v/asqav-pydantic?style=flat-square&logo=pypi&logoColor=white" alt="PyPI version"></a>
@@ -21,9 +21,9 @@
 
 # Asqav for PydanticAI
 
-Cryptographic audit trails for PydanticAI agent tool calls.
+Prove what your PydanticAI agent did, tool call by tool call.
 
-Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [Asqav](https://asqav.com) - producing verifiable records for compliance and governance.
+Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [Asqav](https://asqav.com), producing a tamper-evident record of what the agent attempted. This integration observes and records (it is fail-open and does not block tool execution itself); to stop a rogue agent before it acts, enforce policies on the Asqav side or use a gating integration such as the [MCP server](https://github.com/jagmarques/asqav-mcp).
 
 ## Data handling
 
