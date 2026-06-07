@@ -64,7 +64,7 @@ agent = Agent("openai:gpt-4o", capabilities=[hooks.capability()])
 result = agent.run_sync("Search for the latest AI news")
 ```
 
-Every tool call the agent makes will produce signed `tool:start`, `tool:end`, and `tool:error` events through the Asqav API. Signatures use NIST FIPS 204 ML-DSA cryptography server-side, producing tamper-evident audit trails for EU AI Act, DORA, and SOC 2 compliance.
+Every tool call the agent makes produces signed `tool:start`, `tool:end`, and `tool:error` events through the Asqav API. Signing runs server-side with NIST FIPS 204 ML-DSA cryptography, so the audit trail is tamper-evident and holds up for EU AI Act, DORA, and SOC 2 evidence.
 
 ## How it works
 
