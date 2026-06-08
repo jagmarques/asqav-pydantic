@@ -23,7 +23,7 @@
 
 Prove what your PydanticAI agent did, tool call by tool call.
 
-Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [Asqav](https://asqav.com), producing a tamper-evident record of what the agent attempted. This integration observes and records (it is fail-open and does not block tool execution itself); to stop a rogue agent before it acts, enforce policies on the Asqav side or use a gating integration such as the [MCP server](https://github.com/jagmarques/asqav-mcp).
+Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [Asqav](https://asqav.com), producing a tamper-evident record of what the agent attempted. This integration observes and records: it is fail-open and does not block tool execution itself. To stop a rogue agent before it acts, enforce policies on the Asqav side or use a gating integration such as the [MCP server](https://github.com/jagmarques/asqav-mcp).
 
 ## Data handling
 
