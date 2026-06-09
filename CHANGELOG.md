@@ -10,7 +10,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions follo
 
 ### Changed
 - Comment-hygiene and AI-navigation pass aligning docstrings, structured metadata, and PEP 257 contract surface for the `AsqavHooks` capability (#8, #10).
-- Email and version metadata consolidated on `info@asqav.com` and the canonical `0.1.x` line; brand positioning rebased to AI compliance (#9).
+- Email and version metadata consolidated on `info@asqav.com` and the canonical `0.1.x` line. Brand positioning rebased to AI compliance (#9).
 
 ### Documentation
 - Capitalised "Asqav" in prose, banner alt text, and the H1 (#6, #7).
