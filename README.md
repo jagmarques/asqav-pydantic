@@ -9,7 +9,7 @@
 <p align="center">
   <a href="https://pypi.org/project/asqav-pydantic/"><img src="https://img.shields.io/pypi/v/asqav-pydantic?style=flat-square&logo=pypi&logoColor=white" alt="PyPI version"></a>
   <a href="https://pypi.org/project/asqav-pydantic/"><img src="https://img.shields.io/pypi/dm/asqav-pydantic?style=flat-square&logo=pypi&logoColor=white" alt="Downloads"></a>
-  <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square&logo=opensourceinitiative&logoColor=white" alt="License: MIT"></a>
+  <a href="https://www.elastic.co/licensing/elastic-license"><img src="https://img.shields.io/badge/License-Elastic--2.0-blue.svg?style=flat-square&logoColor=white" alt="License: Elastic License 2.0"></a>
   <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/pypi/pyversions/asqav-pydantic?style=flat-square&logo=python&logoColor=white" alt="Python versions"></a>
   <a href="https://github.com/jagmarques/asqav-pydantic"><img src="https://img.shields.io/github/stars/jagmarques/asqav-pydantic?style=social" alt="GitHub stars"></a>
 </p>
