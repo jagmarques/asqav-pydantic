@@ -3,89 +3,98 @@
     <img src="https://asqav.com/logo-text-white.png" alt="Asqav" width="200">
   </a>
 </p>
-<p align="center">
-  Prove what your PydanticAI agent did, tool call by tool call.
-</p>
-<p align="center">
-  <a href="https://pypi.org/project/asqav-pydantic/"><img src="https://img.shields.io/pypi/v/asqav-pydantic?style=flat-square&logo=pypi&logoColor=white" alt="PyPI version"></a>
-  <a href="https://pypi.org/project/asqav-pydantic/"><img src="https://img.shields.io/pypi/dm/asqav-pydantic?style=flat-square&logo=pypi&logoColor=white" alt="Downloads"></a>
-  <a href="https://www.elastic.co/licensing/elastic-license"><img src="https://img.shields.io/badge/License-Elastic--2.0-blue.svg?style=flat-square&logoColor=white" alt="License: Elastic License 2.0"></a>
-  <a href="https://www.python.org/downloads/"><img src="https://img.shields.io/pypi/pyversions/asqav-pydantic?style=flat-square&logo=python&logoColor=white" alt="Python versions"></a>
-  <a href="https://github.com/jagmarques/asqav-pydantic"><img src="https://img.shields.io/github/stars/jagmarques/asqav-pydantic?style=social" alt="GitHub stars"></a>
-</p>
-<p align="center">
-  <a href="https://www.asqav.com/">Website</a> |
-  <a href="https://www.asqav.com/docs">Docs</a> |
-  <a href="https://github.com/jagmarques/asqav-sdk">SDK</a>
-</p>
 
 # Asqav for PydanticAI
 
-Prove what your PydanticAI agent did, tool call by tool call.
+Attempt to record PydanticAI tool-call events through [Asqav](https://asqav.com).
+This integration uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/).
 
-Uses PydanticAI's [Hooks capability](https://pydantic.dev/docs/ai/core-concepts/hooks/) to sign every tool invocation with [Asqav](https://asqav.com), producing a tamper-evident record of what the agent attempted. This integration observes and records: it is fail-open and does not block tool execution itself. To stop a rogue agent before it acts, enforce policies on the Asqav side.
+The callbacks are observational and fail open: a signing refusal or connection
+failure does not stop the tool from running. Server-side policies can refuse a
+receipt, but these hooks do not use that refusal to control tool execution.
+A receipt records submitted event data when signing succeeds; it does not prove
+that every tool call was recorded or that the reported action happened.
+
+## Install from source
+
+The dependency requirements and example below describe this source tree. Install
+it from GitHub:
+
+```bash
+pip install "asqav-pydantic @ git+https://github.com/jagmarques/asqav-pydantic.git"
+```
+
+For a local checkout, run `pip install .` in its root. The package requires Python
+3.10 or later, PydanticAI 1.80.0 or later within the 1.x series, and the Asqav SDK
+from 0.10.10 up to, but excluding, 0.11.0. The example is tested with PydanticAI
+1.80.0 and Asqav 0.10.10 on Python 3.12.
+
+## Usage: record tool-call events
+
+Set `ASQAV_API_KEY` to your Asqav API key. This example uses PydanticAI's local
+`TestModel`, so it needs no model-provider account or model network request. Agent
+creation and signing still call the Asqav API.
+
+```python
+import os
+
+import asqav
+from pydantic_ai import Agent
+from pydantic_ai.models.test import TestModel
+
+from asqav_pydantic import AsqavHooks
+
+asqav.init(api_key=os.environ["ASQAV_API_KEY"], mode="hash-only")
+hooks = AsqavHooks(agent_name="my-agent")
+
+
+def local_status() -> str:
+    """Return a local status value."""
+    return "ready"
+
+
+agent = Agent(TestModel(), tools=[local_status], capabilities=[hooks.capability()])
+result = agent.run_sync("Run the local status tool")
+print(result.output)
+```
+
+The hooks attempt to sign these events:
+
+| Callback | Event | Context supplied to the SDK |
+| --- | --- | --- |
+| `before_tool_execute` | `tool:start` | Tool name and the first 200 characters of the arguments' string representation |
+| `after_tool_execute` | `tool:end` | Tool name, result type, and length of the result's string representation |
+| `tool_execute_error` | `tool:error` | Tool name, exception type, and the first 200 characters of the exception text |
+
+When execution reaches these hooks, a normal result triggers an end signing
+attempt. An ordinary execution error reaching the error hook triggers an error
+signing attempt and is raised again. Framework retry and deferral control flow,
+and other capabilities, can bypass callbacks, replace results, or recover errors.
+Signing failures are logged and can leave events without receipts. Constructing
+`AsqavHooks` creates or retrieves an Asqav agent and can itself fail before dispatch.
 
 ## Data handling
 
-`asqav-pydantic` is a thin wrapper around the `asqav` Python SDK and inherits its mode behavior:
+The example explicitly selects `mode="hash-only"`. In this mode, the SDK hashes
+the action and event context locally and forwards the digest, canonical byte
+length, action type, and SDK metadata. It does not send the event context as a
+payload. Metadata can include identifiers; hash-only does not mean anonymous.
+Other agent, model, and tool calls have their own data handling.
 
-- **Asqav cloud (`*.asqav.com`):** the SDK hashes your action context locally and sends only the hash plus a small metadata bag (action_type, agent_id, session_id, model_name, tool_name). Raw prompts and tool arguments never leave your infrastructure.
-- **Self-hosted:** the SDK sends the full context so the server can run policy checks, PII redaction, and richer audit views. Recommended when you control the deployment.
-
-You can override per call:
-
-```python
-import asqav
-
-# Force hash-only against a custom URL
-asqav.init(api_key="sk_...", base_url="https://api.asqav.com", mode="hash-only")
-```
-
-This is GDPR-aware data minimization by default for cloud deployments. See [docs/fingerprint-spec.md](https://github.com/jagmarques/asqav-sdk/blob/main/docs/fingerprint-spec.md) in the SDK repo for the fingerprint spec and conformance vectors.
-
-## Install
-
-```bash
-pip install asqav-pydantic
-```
-
-## Usage
-
-```python
-import asqav
-from pydantic_ai import Agent
-from asqav_pydantic import AsqavHooks
-
-asqav.init(api_key="sk_...")
-
-hooks = AsqavHooks(agent_name="my-agent")
-agent = Agent("openai:gpt-4o", capabilities=[hooks.capability()])
-
-result = agent.run_sync("Search for the latest AI news")
-```
-
-Every tool call the agent makes produces signed `tool:start`, `tool:end`, and `tool:error` events through the Asqav API. Signing runs server-side with NIST FIPS 204 ML-DSA cryptography, so the audit trail is tamper-evident and holds up for EU AI Act, DORA, and SOC 2 evidence.
-
-## How it works
-
-`AsqavHooks` extends the Asqav adapter base class and builds a PydanticAI `Hooks` capability with three registered hooks:
-
-- `before_tool_execute` - signs `tool:start` with tool name and input preview
-- `after_tool_execute` - signs `tool:end` with tool name and output metadata
-- `tool_execute_error` - signs `tool:error` with tool name and error details
-
-All signing is fail-open. If the Asqav API is unreachable, a warning is logged but the tool call proceeds normally. Your agent pipeline never breaks because of governance.
+With `mode="full-payload"`, the SDK sends the event context to the configured Asqav
+endpoint. This includes the input preview and exception text described above,
+which can contain sensitive data. Choose the mode through `asqav.init()` before
+constructing the hooks. See the SDK's
+[fingerprint specification](https://github.com/jagmarques/asqav-sdk/blob/main/docs/fingerprint-spec.md)
+for the hashed representation.
 
 ## Configuration
 
-```python
-# Use an existing Asqav agent by ID
-hooks = AsqavHooks(agent_id="ag_abc123")
-
-# Override the API key
-hooks = AsqavHooks(api_key="sk_other", agent_name="audit-agent")
-```
+After calling `asqav.init()`, use `AsqavHooks(agent_id="your-agent-id")` to retrieve
+an existing Asqav agent instead of creating one by name. Attach the result of
+`hooks.capability()` to each PydanticAI agent whose tool calls you want to observe.
+Calls made outside those agents' tool execution hooks are not covered.
 
 ## License
 
-MIT
+[Elastic License 2.0](LICENSE).

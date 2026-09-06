@@ -37,8 +37,8 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = [
-    "asqav>=0.2.15",
-    "pydantic-ai>=0.1.0",
+    "asqav>=0.10.10,<0.11.0",
+    "pydantic-ai>=1.80.0,<2.0.0",
 ]
 
 [project.optional-dependencies]
@@ -50,11 +50,13 @@ Documentation = "https://asqav.com/docs"
 Repository = "https://github.com/jagmarques/asqav-pydantic"
 
 [tool.hatch.build.targets.sdist]
+core-metadata-version = "2.4"
 include = [
     "/src",
 ]
 
 [tool.hatch.build.targets.wheel]
+core-metadata-version = "2.4"
 packages = ["src/asqav_pydantic"]
 
 [tool.ruff]
