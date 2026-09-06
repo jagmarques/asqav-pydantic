@@ -29,7 +29,8 @@ class AsqavHooks(AsqavAdapter):
     """Attempt to sign PydanticAI tool-call events via the Asqav API.
 
     Signing errors are logged and do not block tools. Agent creation or retrieval
-    during construction can raise. A tool's own exception is raised again.
+    during construction can raise. The error hook raises the exception it receives.
+    Framework control flow and other capabilities can skip callbacks or recover errors.
 
     Args:
         api_key: Optional API key override (uses ``asqav.init()`` default).

@@ -66,10 +66,12 @@ The hooks attempt to sign these events:
 | `after_tool_execute` | `tool:end` | Tool name, result type, and length of the result's string representation |
 | `tool_execute_error` | `tool:error` | Tool name, exception type, and the first 200 characters of the exception text |
 
-A successful tool execution reaches `tool:end`; a tool exception reaches
-`tool:error` and is raised again. Signing failures are logged, and can leave
-either event without a receipt. Constructing `AsqavHooks` creates or retrieves an
-Asqav agent and can itself fail, before any tool callbacks run.
+When execution reaches these hooks, a normal result triggers an end signing
+attempt. An ordinary execution error reaching the error hook triggers an error
+signing attempt and is raised again. Framework retry and deferral control flow,
+and other capabilities, can bypass callbacks, replace results, or recover errors.
+Signing failures are logged and can leave events without receipts. Constructing
+`AsqavHooks` creates or retrieves an Asqav agent and can itself fail before dispatch.
 
 ## Data handling
 
@@ -79,7 +81,7 @@ length, action type, and SDK metadata. It does not send the event context as a
 payload. Metadata can include identifiers; hash-only does not mean anonymous.
 Other agent, model, and tool calls have their own data handling.
 
-With `mode="full"`, the SDK sends the event context to the configured Asqav
+With `mode="full-payload"`, the SDK sends the event context to the configured Asqav
 endpoint. This includes the input preview and exception text described above,
 which can contain sensitive data. Choose the mode through `asqav.init()` before
 constructing the hooks. See the SDK's
