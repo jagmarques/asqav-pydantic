@@ -25,9 +25,9 @@ pip install "asqav-pydantic @ git+https://github.com/jagmarques/asqav-pydantic.g
 ```
 
 For a local checkout, run `pip install .` in its root. The package requires Python
-3.10 or later, PydanticAI 1.80.0 or later within the 1.x series, and the Asqav SDK
+3.10 or later, PydanticAI 2.0.0 or later within the 2.x series, and the Asqav SDK
 from 0.10.10 up to, but excluding, 0.11.0. The example is tested with PydanticAI
-1.80.0 and Asqav 0.10.10 on Python 3.12.
+2.0.0 and 2.62.0 and Asqav 0.10.14 on Python 3.12.
 
 ## Usage: record tool-call events
 
